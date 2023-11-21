@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Third-party
-    "crewing"
+    "crewing",
+    "crispy_forms",
 
 ]
 
@@ -127,3 +128,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "crewing.Crew"
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
