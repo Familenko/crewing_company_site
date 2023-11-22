@@ -20,13 +20,16 @@ class Position(models.Model):
     name = models.CharField(max_length=50, unique=True)
     responsibility = models.TextField(blank=True, null=True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = "position"
         verbose_name_plural = "positions"
         ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("crewing:position-detail", kwargs={"pk": self.pk})
 
 
 class Crew(AbstractUser):

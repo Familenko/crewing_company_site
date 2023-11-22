@@ -1,11 +1,15 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponseRedirect
 
 from crewing.models import Crew, Vessel, Company, VesselType, Position
-from crewing.forms import CrewForm, VesselForm, CompanyForm, VesselTypeForm, PositionForm
+from crewing.forms import VesselForm, CompanyForm, VesselTypeForm, PositionForm, CrewCreationForm, CrewSearchForm, \
+    CrewUpdateForm
 
 
 @login_required
@@ -29,11 +33,49 @@ def index(request):
     return render(request, "crewing/index.html", context=context)
 
 
+@login_required
+def toggle_assign_to_vessel(request, pk):
+    sailor = get_object_or_404(Crew, id=request.user.id)
+    vessel = get_object_or_404(Vessel, id=pk)
+
+    if vessel == sailor.vessel:
+        sailor.vessel = None
+    else:
+        sailor.vessel = vessel
+    sailor.save()
+
+    return HttpResponseRedirect(reverse_lazy("crewing:vessel-detail", args=[pk]))
+
+
 class CrewListView(LoginRequiredMixin, generic.ListView):
     model = Crew
     context_object_name = "crew_list"
     template_name = "crewing/crew/list.html"
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CrewListView, self).get_context_data(**kwargs)
+        placeholder_username = self.request.GET.get("username")
+        placeholder_position = self.request.GET.get("position")
+        placeholder_last_name = self.request.GET.get("last_name")
+        placeholder_vessel = self.request.GET.get("vessel")
+        context["search_form"] = CrewSearchForm(
+            initial={
+                "username": placeholder_username,
+                "position": placeholder_position,
+                "last_name": placeholder_last_name,
+                "vessel": placeholder_vessel,
+            })
+        return context
+
+    def get_queryset(self):
+        queryset = Crew.objects.all()
+
+        search_form = CrewSearchForm(self.request.GET)
+        if search_form.is_valid():
+            queryset = search_form.filter_queryset(queryset)
+
+        return queryset
 
 
 class VesselListView(LoginRequiredMixin, generic.ListView):
@@ -41,6 +83,15 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "vessel_list"
     template_name = "crewing/vessel/list.html"
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        one_month_ago = datetime.now() - timedelta(days=30)
+        sailors_leaving_soon = Crew.objects.filter(date_of_leaving__gte=one_month_ago)
+
+        context["sailors_leaving_soon"] = sailors_leaving_soon
+        return context
 
 
 class CompanyListView(LoginRequiredMixin, generic.ListView):
@@ -109,6 +160,14 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+class PositionDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Position
+    template_name = "crewing/position/detail.html"
+
+    def get_queryset(self):
+        return Position.objects.prefetch_related('sailors')
+
+
 class CrewDetailView(LoginRequiredMixin, generic.DetailView):
     model = Crew
     template_name = "crewing/crew/detail.html"
@@ -132,15 +191,13 @@ class CompanyDetailView(LoginRequiredMixin, generic.DetailView):
 
 class CrewCreateView(LoginRequiredMixin, generic.CreateView):
     model = Crew
-    form_class = CrewForm
-    fields = "__all__"
+    form_class = CrewCreationForm
     success_url = reverse_lazy("crewing:crew-list")
 
 
 class CrewUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Crew
-    form_class = CrewForm
-    fields = "__all__"
+    form_class = CrewUpdateForm
     success_url = reverse_lazy("crewing:crew-list")
 
 

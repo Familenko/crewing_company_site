@@ -16,15 +16,15 @@
   <h1>
     Crew list
 
-{#    {% if vessel in user.vessels.all %}#}
-{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">#}
-{#        Delete me from this car#}
-{#      </a>#}
-{#    {% else %}#}
-{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">#}
-{#        Assign me from this car#}
-{#      </a>#}
-{#    {% endif %}#}
+    {% if vessel == user.vessel %}
+      <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-danger link-to-page">
+        Delete me from this vessel
+      </a>
+    {% else %}
+      <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-success link-to-page">
+        Assign me to this vessel
+      </a>
+    {% endif %}
 
   </h1>
   <hr>

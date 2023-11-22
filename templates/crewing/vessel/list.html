@@ -21,22 +21,26 @@
           <th>Name</th>
           <th>Type</th>
           <th>Company</th>
-          <th>Sailors</th>
+          <th>Ready for disembark</th>
         </tr>
       </thead>
       <tbody>
         {% for vessel in vessel_list %}
           <tr>
             <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></td>
-{#            <td>{{ vessel.name }}</td>#}
             <td>{{ vessel.vessel_type }}</td>
-            <td>{{ vessel.company }}</td>
+            <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.company }}</a></td>
             <td>
-              {% for sailor in vessel.sailors.all %}
-{#                <a href="{{ driver.get_absolute_url }}">{{ driver.username }} {% if user == driver %} (Me){% endif %}</a>#}
-                {{ sailor.username }}
-                {% if not forloop.last %}, {% endif %}
-              {% endfor %}
+              {% if sailors_leaving_soon %}
+                {% for sailor in sailors_leaving_soon %}
+                  {% if sailor.vessel == vessel %}
+                    <a href="{{ sailor.get_absolute_url }}">{{ sailor.username }}{% if user == sailor %} (Me){% endif %}</a>
+                    {% if not forloop.last %}, {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                No sailors leaving soon.
+              {% endif %}
             </td>
           </tr>
         {% endfor %}

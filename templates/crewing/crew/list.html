@@ -2,17 +2,17 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-{#    <h1>#}
-{#      Driver List#}
-{#      <a href="{% url 'taxi:driver-create' %}" class="btn btn-secondary link-to-page">#}
-{#        Create#}
-{#      </a>#}
-{#    </h1>#}
-{##}
-{#    <form action="" method="get" class="form-inline">#}
-{#      {{ search_form|crispy }}#}
-{#      <input class="btn btn-secondary"   type="submit" value="🔎👶👨👩👨‍🦲👵">#}
-{#    </form>#}
+    <h1>
+      Crew List
+      <a href="{% url 'crewing:crew-create' %}" class="btn btn-secondary link-to-page">
+        Create
+      </a>
+    </h1>
+
+    <form action="" method="get" class="form-inline">
+      {{ search_form|crispy }}
+      <input class="btn btn-secondary"   type="submit" value="🔎👨👩">
+    </form>
 
     {% if crew_list %}
       <table class="table">
@@ -22,6 +22,10 @@
           <th>First name</th>
           <th>Last name</th>
           <th>Position</th>
+          <th>Date of join</th>
+          <th>Date of leaving</th>
+          <th>Vessel</th>
+          <th>Update</th>
         </tr>
       {% for sailor in crew_list %}
         <tr>
@@ -30,6 +34,14 @@
           <td>{{ sailor.first_name }}</td>
           <td>{{ sailor.last_name }}</td>
           <td>{{ sailor.position }}</td>
+          <td>{{ sailor.date_of_join }}</td>
+          <td>{{ sailor.date_of_leaving }}</td>
+          <td><a href="{{ sailor.vessel.get_absolute_url }}">{{ sailor.vessel }}</td>
+          <td>
+            <a href="{% url "crewing:crew-update" pk=sailor.id %}">
+              Update
+            </a>
+          </td>
         </tr>
       {% endfor %}
 

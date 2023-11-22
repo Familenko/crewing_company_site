@@ -34,7 +34,7 @@
           </td>
           <td>
             {% for vessel in vessel_type.vessels.all %}
-              {{ vessel.name }}
+              <a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a>
             {% endfor %}
           </td>
 

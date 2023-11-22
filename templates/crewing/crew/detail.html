@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-{#  <h1>#}
-{#    Username: {{ driver.username }}#}
-{#    <a href="{% url 'taxi:driver-delete' pk=driver.id %}" class="btn btn-danger link-to-page">#}
-{#      Delete#}
-{#    </a>#}
-{##}
-{#    <a href="{% url 'taxi:driver-update' pk=driver.id %}" class="btn btn-secondary link-to-page">#}
-{#      Update license number#}
-{#    </a>#}
-{#  </h1>#}
+  <h1>
+    Username: {{ crew.username }}
+    <a href="{% url "crewing:crew-delete" pk=crew.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url "crewing:crew-update" pk=crew.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+
 
   <p><strong>First name:</strong> {{ crew.first_name }}</p>
   <p><strong>Last name:</strong> {{ crew.last_name }}</p>
@@ -19,16 +20,10 @@
   <p><strong>Date of leaving:</strong> {{ crew.date_of_leaving }}</p>
   <p><strong>Vessel:</strong> {{ crew.vessel }}</p>
 
-  <div class="ml-3">
-    <h4>Cars</h4>
+  {% if crew.vessel_type.all %}
+    <p><strong>Diplomas:</strong> {{ crew.vessel_type.all|join:", " }}</p>
+  {% else %}
+    <p>No diplomas!</p>
+  {% endif %}
 
-    {% for vessel_type in crew.vessel_type.all %}
-        <hr>
-        <p><strong>Diploma:</strong> {{ vessel_type.name }}</p>
-        <p><strong>Descriptions:</strong> {{ vessel_type.description }}</p>
-
-    {% empty %}
-      <p>No diplomas!</p>
-    {% endfor %}
-  </div>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.urls import path
 
 from .views import (
     index,
+    toggle_assign_to_vessel,
 
     VesselListView,
     VesselDetailView,
@@ -29,7 +30,7 @@ from .views import (
     CompanyListView,
     CompanyCreateView,
     CompanyUpdateView,
-    CompanyDeleteView,
+    CompanyDeleteView, PositionDetailView,
 )
 
 urlpatterns = [
@@ -40,6 +41,7 @@ urlpatterns = [
     path("vessels/create/", VesselCreateView.as_view(), name="vessel-create"),
     path("vessels/<int:pk>/update/", VesselUpdateView.as_view(), name="vessel-update"),
     path("vessels/<int:pk>/delete/", VesselDeleteView.as_view(), name="vessel-delete"),
+    path("vessels/<int:pk>/toggle-assign/", toggle_assign_to_vessel, name="toggle-vessel-assign"),
 
     path("vessel_types/", VesselTypeListView.as_view(), name="vessel-type-list"),
     path("vessel_types/create/", VesselTypeCreateView.as_view(), name="vessel-type-create"),
@@ -59,6 +61,7 @@ urlpatterns = [
     path("company/<int:pk>/delete/", CompanyDeleteView.as_view(), name="company-delete"),
 
     path("position/", PositionListView.as_view(), name="position-list"),
+    path("position/<int:pk>/", PositionDetailView.as_view(), name="position-detail"),
     path("position/create/", PositionCreateView.as_view(), name="position-create"),
     path("position/<int:pk>/update/", PositionUpdateView.as_view(), name="position-update"),
     path("position/<int:pk>/delete/", PositionDeleteView.as_view(), name="position-delete"),
