@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+{#  <h1>#}
+{#    Vessel Type List#}
+{#    <a href="{% url 'taxi:manufacturer-create' %}" class="btn btn-secondary link-to-page">#}
+{#      Create#}
+{#    </a>#}
+{#  </h1>#}
+{##}
+{#  <form action="" method="get" class="form-inline">#}
+{#    {{ search_form|crispy }}#}
+{#    <input class="btn btn-secondary"   type="submit", value="🔎🏭🦾⚙️">#}
+{#  </form>#}
+
+  {% if vessel_type_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Vessels</th>
+{#        <th>Update</th>#}
+{#        <th>Delete</th>#}
+      </tr>
+
+      {% for vessel_type in vessel_type_list %}
+        <tr>
+          <td>
+              {{ vessel_type.id }}
+          </td>
+          <td>
+              {{ vessel_type.name }}
+          </td>
+          <td>
+            {% for vessel in vessel_type.vessels.all %}
+              {{ vessel.name }}
+            {% endfor %}
+          </td>
+
+
+
+{#          <td>#}
+{#              <a href="{% url 'taxi:manufacturer-update' pk=manufacturer.id %}">#}
+{#                Update#}
+{#              </a>#}
+{#            </td>#}
+{#            <td>#}
+{#              <a style="color: red"#}
+{#                href="{% url 'taxi:manufacturer-delete' pk=manufacturer.id %}">#}
+{#                Delete#}
+{#              </a>#}
+{#            </td>#}
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no vessels type in the service.</p>
+  {% endif %}
+{% endblock %}

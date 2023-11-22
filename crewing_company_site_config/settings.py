@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Third-party
     "crewing",
     "crispy_forms",
+    "crewing.templatetags.custom_filter"
 
 ]
 

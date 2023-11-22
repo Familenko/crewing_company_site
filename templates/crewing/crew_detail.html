@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#  <h1>#}
+{#    Username: {{ driver.username }}#}
+{#    <a href="{% url 'taxi:driver-delete' pk=driver.id %}" class="btn btn-danger link-to-page">#}
+{#      Delete#}
+{#    </a>#}
+{##}
+{#    <a href="{% url 'taxi:driver-update' pk=driver.id %}" class="btn btn-secondary link-to-page">#}
+{#      Update license number#}
+{#    </a>#}
+{#  </h1>#}
+
+  <p><strong>First name:</strong> {{ crew.first_name }}</p>
+  <p><strong>Last name:</strong> {{ crew.last_name }}</p>
+  <p><strong>Position:</strong> {{ crew.position }}</p>
+  <p><strong>Date of joining:</strong> {{ crew.date_of_joining }}</p>
+  <p><strong>Date of leaving:</strong> {{ crew.date_of_leaving }}</p>
+  <p><strong>Vessel:</strong> {{ crew.vessel }}</p>
+
+  <div class="ml-3">
+    <h4>Cars</h4>
+
+    {% for vessel_type in crew.vessel_type.all %}
+        <hr>
+        <p><strong>Diploma:</strong> {{ vessel_type.name }}</p>
+        <p><strong>Descriptions:</strong> {{ vessel_type.description }}</p>
+
+    {% empty %}
+      <p>No diplomas!</p>
+    {% endfor %}
+  </div>
+{% endblock %}

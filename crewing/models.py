@@ -46,8 +46,8 @@ class Crew(AbstractUser):
     def __str__(self):
         return self.username
 
-    # def get_absolute_url(self):
-    #     return reverse("crewing:crew-detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse("crewing:crew-detail", kwargs={"pk": self.pk})
 
 
 class Vessel(models.Model):
@@ -64,8 +64,8 @@ class Vessel(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse("crewing:vessel-detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse("crewing:vessel-detail", kwargs={"pk": self.pk})
 
 
 class Company(models.Model):
@@ -81,5 +81,5 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse("crewing:company-detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse("crewing:company-detail", kwargs={"pk": self.pk})

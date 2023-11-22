@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <p><strong>First name:</strong> {{ company.name }}</p>
+  <p><strong>Last name:</strong> {{ company.country }}</p>
+
+  <div class="ml-3">
+    <h4>Vessels</h4>
+
+    {% for vessel in company.vessels.all %}
+        <hr>
+        <p><strong>Name:</strong> <a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></p>
+
+    {% empty %}
+      <p>No vessels!</p>
+    {% endfor %}
+  </div>
+{% endblock %}

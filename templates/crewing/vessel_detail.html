@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#  <h1>#}
+{#    {{ car.model }}#}
+{#    <a href="{% url 'taxi:car-delete' pk=car.id %}" class="btn btn-danger link-to-page">#}
+{#      Delete#}
+{#    </a>#}
+{##}
+{#    <a href="{% url 'taxi:car-update' pk=car.id %}" class="btn btn-secondary link-to-page">#}
+{#      Update#}
+{#    </a>#}
+{#  </h1>#}
+  <p>Vessel: ({{ vessel.name }}, IMO{{ vessel.IMO_number }}, {{ vessel.vessel_type }})</p>
+  <p>Company:  {{ vessel.company }}</p>
+  <h1>
+    Crew list
+
+{#    {% if vessel in user.vessels.all %}#}
+{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">#}
+{#        Delete me from this car#}
+{#      </a>#}
+{#    {% else %}#}
+{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">#}
+{#        Assign me from this car#}
+{#      </a>#}
+{#    {% endif %}#}
+
+  </h1>
+  <hr>
+  <ul>
+    {% for sailor in vessel.sailors.all %}
+      <li>{{ sailor.position }} <a href="{{ sailor.get_absolute_url }}">({{ sailor.first_name }} {{ sailor.last_name }}) {% if user == sailor %} (Me){% endif %}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

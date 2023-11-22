@@ -20,14 +20,17 @@
         <tr>
           <th>Name</th>
           <th>Type</th>
-          <th>Drivers</th>
+          <th>Company</th>
+          <th>Sailors</th>
         </tr>
       </thead>
       <tbody>
         {% for vessel in vessel_list %}
           <tr>
-            <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.model }}</a></td>
-            <td>{{ vessel.manufacturer }}</td>
+            <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></td>
+{#            <td>{{ vessel.name }}</td>#}
+            <td>{{ vessel.vessel_type }}</td>
+            <td>{{ vessel.company }}</td>
             <td>
               {% for sailor in vessel.sailors.all %}
 {#                <a href="{{ driver.get_absolute_url }}">{{ driver.username }} {% if user == driver %} (Me){% endif %}</a>#}
