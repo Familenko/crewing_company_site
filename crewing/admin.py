@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Crew, VesselType, Vessel, Company
+from .models import Crew, VesselType, Vessel, Company, Position
 
 
 @admin.register(Crew)
@@ -45,3 +45,4 @@ class CompanyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(VesselType)
+admin.site.register(Position)

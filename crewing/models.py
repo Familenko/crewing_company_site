@@ -16,8 +16,21 @@ class VesselType(models.Model):
         ordering = ["name"]
 
 
+class Position(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    responsibility = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "position"
+        verbose_name_plural = "positions"
+        ordering = ["name"]
+
+
 class Crew(AbstractUser):
-    position = models.CharField(max_length=50)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='sailors', null=True, blank=True)
     salary = models.IntegerField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_joining = models.DateField(null=True, blank=True)
