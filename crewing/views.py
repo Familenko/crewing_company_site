@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -76,7 +77,8 @@ class CrewListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Crew.objects.all()
+        queryset = Crew.objects.all(
+        ).select_related('position', 'vessel')
 
         search_form = CrewSearchForm(self.request.GET)
         if search_form.is_valid():
@@ -108,7 +110,8 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Vessel.objects.all()
+        queryset = Vessel.objects.all(
+        ).select_related('vessel_type', 'company')
 
         search_form = VesselSearchForm(self.request.GET)
         if search_form.is_valid():
@@ -150,14 +153,9 @@ class VesselTypeListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "vessel_type_list"
     template_name = "crewing/vessel_type/list.html"
     paginate_by = 5
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        for vessel_type in context['vessel_type_list']:
-            vessel_type.vessels.set(Vessel.objects.filter(vessel_type=vessel_type)[:3])
-
-        return context
+    queryset = VesselType.objects.all().prefetch_related(
+        Prefetch('vessels', queryset=Vessel.objects.all().order_by('name'))
+    )
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
