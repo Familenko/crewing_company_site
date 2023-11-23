@@ -10,7 +10,7 @@
 
     {% for vessel in company.vessels.all %}
         <hr>
-        <p><strong>Name:</strong> <a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></p>
+        <p><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></p>
 
     {% empty %}
       <p>No vessels!</p>

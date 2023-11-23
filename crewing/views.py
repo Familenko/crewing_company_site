@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 
 from crewing.models import Crew, Vessel, Company, VesselType, Position
 from crewing.forms import VesselForm, CompanyForm, VesselTypeForm, PositionForm, CrewCreationForm, CrewSearchForm, \
-    CrewUpdateForm
+    CrewUpdateForm, VesselSearchForm
 
 
 @login_required
@@ -91,7 +91,23 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
         sailors_leaving_soon = Crew.objects.filter(date_of_leaving__gte=one_month_ago)
 
         context["sailors_leaving_soon"] = sailors_leaving_soon
+
+        placeholder_vessel = self.request.GET.get("vessel")
+        context["search_form"] = VesselSearchForm(
+            initial={
+                "vessel": placeholder_vessel,
+            })
+
         return context
+
+    def get_queryset(self):
+        queryset = Vessel.objects.all()
+
+        search_form = VesselSearchForm(self.request.GET)
+        if search_form.is_valid():
+            queryset = search_form.filter_queryset(queryset)
+
+        return queryset
 
 
 class CompanyListView(LoginRequiredMixin, generic.ListView):
@@ -209,7 +225,6 @@ class CrewDeleteView(LoginRequiredMixin, generic.DeleteView):
 class VesselCreateView(LoginRequiredMixin, generic.CreateView):
     model = Vessel
     form_class = VesselForm
-    fields = "__all__"
     success_url = reverse_lazy("crewing:vessel-list")
 
 
@@ -254,7 +269,6 @@ class VesselTypeCreateView(LoginRequiredMixin, generic.CreateView):
 class VesselTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = VesselType
     form_class = VesselTypeForm
-    fields = "__all__"
     success_url = reverse_lazy("crewing:vessel-type-list")
 
 

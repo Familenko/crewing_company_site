@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 from crewing.models import VesselType, Vessel, Company, Position
+from crewing.validators import validate_IMO_number, validate_name, validate_date_of_joining
 
 
 class CrewCreationForm(UserCreationForm):
@@ -27,6 +28,15 @@ class CrewCreationForm(UserCreationForm):
             "vessel_type",
             "vessel",
         )
+
+    def clean_first_name(self):
+        return validate_name(self.cleaned_data["first_name"])
+
+    def clean_last_name(self):
+        return validate_name(self.cleaned_data["last_name"])
+
+    def clean_date_of_joining(self):
+        return validate_date_of_joining(self.cleaned_data["date_of_joining"])
 
 
 class CrewUpdateForm(forms.ModelForm):
@@ -132,6 +142,33 @@ class CrewSearchForm(forms.Form):
         return queryset
 
 
+class VesselSearchForm(forms.Form):
+    example_name = [
+        "Kara Sea, kara",
+        "Pine 5, pine, 5",
+        "Hoegh Pusan, hoegh, pusan",
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super(VesselSearchForm, self).__init__(*args, **kwargs)
+        self.fields["name"].widget.attrs["placeholder"] = f"name: {random.choice(self.example_name)}"
+
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(),
+    )
+
+    def filter_queryset(self, queryset):
+        name = self.cleaned_data.get("name")
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
+
 class CompanyForm(forms.ModelForm):
     vessels = forms.ModelMultipleChoiceField(
         queryset=Vessel.objects.all(),
@@ -147,6 +184,9 @@ class VesselForm(forms.ModelForm):
     class Meta:
         model = Vessel
         fields = "__all__"
+
+    def clean_IMO_number(self):
+        return validate_IMO_number(self.cleaned_data["IMO_number"])
 
 
 class VesselTypeForm(forms.ModelForm):

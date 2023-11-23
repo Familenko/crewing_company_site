@@ -3,48 +3,27 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-{#  <h1>#}
-{#    Vessel Type List#}
-{#    <a href="{% url 'taxi:manufacturer-create' %}" class="btn btn-secondary link-to-page">#}
-{#      Create#}
-{#    </a>#}
-{#  </h1>#}
-{##}
-{#  <form action="" method="get" class="form-inline">#}
-{#    {{ search_form|crispy }}#}
-{#    <input class="btn btn-secondary"   type="submit", value="🔎🏭🦾⚙️">#}
-{#  </form>#}
-
   {% if position_list %}
     <table class="table">
       <tr>
-        <th>ID</th>
         <th>Name</th>
-        <th>Responsibilities</th>
-        <th>Amount of workers</th>
-{#        <th>Update</th>#}
-{#        <th>Delete</th>#}
+        <th style="text-align: center;">Responsibilities</th>
+        <th style="width: 150px; text-align: center;">Workers quantity</th>
       </tr>
-
       {% for position in position_list %}
         <tr>
-          <td>
-              {{ position.id }}
-          </td>
-          <td>
+          <td style="width: 150px;">
               <a href="{{ position.get_absolute_url }}">{{ position.name }}</a>
           </td>
           <td>
             {{ position.responsibility }}
           </td>
-          <td>
+          <td style="width: 150px; text-align: center;">
             {{ workers_count|default:"N/A"|get_item:position.id }}
           </td>
-
         </tr>
       {% endfor %}
     </table>
-
   {% else %}
       <p>There are no vessels type in the service.</p>
   {% endif %}
