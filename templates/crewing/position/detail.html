@@ -1,27 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>
-    Position: {{ position.name }}
-{#    <a href="{% url "crewing:crew-delete" pk=crew.id %}" class="btn btn-danger link-to-page">#}
-{#      Delete#}
-{#    </a>#}
-{##}
-{#    <a href="{% url "crewing:crew-update" pk=crew.id %}" class="btn btn-secondary link-to-page">#}
-{#      Update#}
-{#    </a>#}
-  </h1>
+  <div class="container mt-5">
+    <h1>{{ position.name }}</h1>
 
-  <p><strong>Description:</strong> {{ position.responsibility }}</p>
+    <p class="lead"><strong>Description:</strong> {{ position.responsibility }}</p>
 
-  <div class="ml-3">
-    <h4>Sailors</h4>
+    <div class="ml-3">
+      <h4 class="mt-4">Sailors</h4>
 
-    {% for sailor in position.sailors.all %}
-        <hr>
-      <p><a href="{{ sailor.get_absolute_url }}">{{ sailor.last_name }}  {{ sailor.first_name }} {{ sailor.salary }}</a></p>
-    {% empty %}
-      <p>No sailors!</p>
-    {% endfor %}
+      {% for sailor in position.sailors.all %}
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ sailor.get_absolute_url }}">
+                {{ sailor.last_name }} {{ sailor.first_name }}
+              </a>
+            </h5>
+            <p class="card-text"><strong>Salary:</strong> {{ sailor.salary }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p class="mt-3">No sailors!</p>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

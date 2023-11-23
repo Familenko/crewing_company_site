@@ -3,28 +3,33 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  {% if position_list %}
-    <table class="table">
-      <tr>
-        <th>Name</th>
-        <th style="text-align: center;">Responsibilities</th>
-        <th style="width: 150px; text-align: center;">Workers quantity</th>
-      </tr>
-      {% for position in position_list %}
+  <div class="container mt-5">
+    <h1 class="display-4 mb-4">
+      POSITIONS
+    </h1>
+    {% if position_list %}
+      <table class="table">
         <tr>
-          <td style="width: 150px;">
-              <a href="{{ position.get_absolute_url }}">{{ position.name }}</a>
-          </td>
-          <td>
-            {{ position.responsibility }}
-          </td>
-          <td style="width: 150px; text-align: center;">
-            {{ workers_count|default:"N/A"|get_item:position.id }}
-          </td>
+          <th>Name</th>
+          <th style="text-align: center;">Responsibilities</th>
+          <th style="width: 150px; text-align: center;">Workers quantity</th>
         </tr>
-      {% endfor %}
-    </table>
-  {% else %}
-      <p>There are no vessels type in the service.</p>
-  {% endif %}
+        {% for position in position_list %}
+          <tr>
+            <td style="width: 150px;">
+                <a href="{{ position.get_absolute_url }}">{{ position.name }}</a>
+            </td>
+            <td>
+              {{ position.responsibility }}
+            </td>
+            <td style="width: 150px; text-align: center;">
+              {{ workers_count|default:"N/A"|get_item:position.id }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+        <p>There are no vessels type in the service.</p>
+    {% endif %}
+  </div>
 {% endblock %}

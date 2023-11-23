@@ -1,36 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-{#  <h1>#}
-{#    {{ car.model }}#}
-{#    <a href="{% url 'taxi:car-delete' pk=car.id %}" class="btn btn-danger link-to-page">#}
-{#      Delete#}
-{#    </a>#}
-{##}
-{#    <a href="{% url 'taxi:car-update' pk=car.id %}" class="btn btn-secondary link-to-page">#}
-{#      Update#}
-{#    </a>#}
-{#  </h1>#}
-  <p>Vessel: ({{ vessel.name }}, IMO{{ vessel.IMO_number }}, {{ vessel.vessel_type }})</p>
-  <p>Company:  {{ vessel.company }}</p>
-  <h1>
-    Crew list
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">Vessel: ({{ vessel.name }}, IMO{{ vessel.IMO_number }}, {{ vessel.vessel_type }})</h2>
+        <p class="card-text">Company: {{ vessel.company }}</p>
 
-    {% if vessel == user.vessel %}
-      <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-danger link-to-page">
-        Delete me from this vessel
-      </a>
-    {% else %}
-      <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-success link-to-page">
-        Assign me to this vessel
-      </a>
-    {% endif %}
+        <h1 class="mt-4">
+          Crew list
 
-  </h1>
-  <hr>
-  <ul>
-    {% for sailor in vessel.sailors.all %}
-      <li>{{ sailor.position }} <a href="{{ sailor.get_absolute_url }}">({{ sailor.first_name }} {{ sailor.last_name }}) {% if user == sailor %} (Me){% endif %}</a></li>
-    {% endfor %}
-  </ul>
+          {% if vessel == user.vessel %}
+            <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-danger link-to-page">
+              Delete me from this vessel
+            </a>
+          {% else %}
+            <a href="{% url 'crewing:toggle-vessel-assign' pk=vessel.id %}" class="btn btn-success link-to-page">
+              Assign me to this vessel
+            </a>
+          {% endif %}
+        </h1>
+
+        <hr>
+
+        <ul class="list-group">
+          {% for sailor in vessel.sailors.all %}
+            <li class="list-group-item">
+              {{ sailor.position }}
+              <a href="{{ sailor.get_absolute_url }}">
+                ({{ sailor.first_name }} {{ sailor.last_name }}) {% if user == sailor %} (Me){% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
 {% endblock %}

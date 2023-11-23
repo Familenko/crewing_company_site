@@ -2,52 +2,55 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>
-    Vessel list
-    <a href="{% url 'crewing:vessel-create' %}" class="btn btn-secondary link-to-page">
-      Create
-    </a>
-  </h1>
+  <div class="container mt-5">
+    <h1 class="display-4 mb-4">
+      VESSELS
+      <a href="{% url 'crewing:vessel-create' %}" class="btn btn-secondary link-to-page">
+        Create
+      </a>
+    </h1>
 
-  <form action="" method="get" class="form-inline">
-    {{ search_form|crispy }}
-    <input class="btn btn-secondary" type="submit" value="🔎🚢🛳🛥⛴🚤⛵️">
-  </form>
+    <form action="" method="get" class="form-inline mb-4">
+      {{ search_form|crispy }}
+      <button class="btn btn-secondary" type="submit">🔎🚢🛳🛥⛴🚤⛵️</button>
+    </form>
 
-  {% if vessel_list %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Company</th>
-          <th>Ready for disembark</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for vessel in vessel_list %}
-          <tr>
-            <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></td>
-            <td>{{ vessel.vessel_type }}</td>
-            <td><a href="{{ vessel.company.get_absolute_url }}">{{ vessel.company }}</a></td>
-            <td>
-              {% if sailors_leaving_soon %}
-                {% for sailor in sailors_leaving_soon %}
-                  {% if sailor.vessel == vessel %}
-                    <a href="{{ sailor.get_absolute_url }}">{{ sailor.username }}{% if user == sailor %} (Me){% endif %}</a>
-                    {% if not forloop.last %}, {% endif %}
+    {% if vessel_list %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Company</th>
+              <th>Ready for Disembark</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vessel in vessel_list %}
+              <tr>
+                <td><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></td>
+                <td>{{ vessel.vessel_type }}</td>
+                <td><a href="{{ vessel.company.get_absolute_url }}">{{ vessel.company }}</a></td>
+                <td>
+                  {% if sailors_leaving_soon %}
+                    {% for sailor in sailors_leaving_soon %}
+                      {% if sailor.vessel == vessel %}
+                        <a href="{{ sailor.get_absolute_url }}">{{ sailor.username }}{% if user == sailor %} (Me){% endif %}</a>
+                        {% if not forloop.last %}, {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    No sailors leaving soon.
                   {% endif %}
-                {% endfor %}
-              {% else %}
-                No sailors leaving soon.
-              {% endif %}
-            </td>
-
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no cars in the taxi.</p>
-  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="lead">There are no vessels in the fleet.</p>
+    {% endif %}
+  </div>
 {% endblock %}

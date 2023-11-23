@@ -1,18 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Private Maritime Company</h1>
-    <p>Welcome to Familenko Crewmanagement</p>
-    <h2>Dynamic content</h2>
-    <p>In this company you have chance to unite with:</p>
-    <ul>
-        <li><strong>Our crew:</strong> {{ num_sailors }} sailors</li>
-        <li><strong>Our fleet:</strong> {{ num_vessels }} vessels</li>
-        <li><strong>Our partners:</strong> {{ num_companies }} Shipowners</li>
-    </ul>
-
-    <p>You have visited this page
-        {{ num_visits }} time{{ num_visits|pluralize }}.
-    </p>
-
+    <div>
+        <div class="text-center text-black">
+            <h1 class="display-4">Private Maritime Company</h1>
+            <p class="lead">Welcome to Familenko Crewmanagement</p>
+            <hr class="my-4">
+            <h2 class="display-5">Dynamic Content</h2>
+            <p class="lead">In this company, you have the chance to unite with:</p>
+            <ul class="list-unstyled">
+                <li><strong>Our crew:</strong> {{ num_sailors }} sailors</li>
+                <li><strong>Our fleet:</strong> {{ num_vessels }} vessels</li>
+                <li><strong>Our partners:</strong> {{ num_companies }} Shipowners</li>
+            </ul>
+            <hr class="my-4">
+            <p class="lead">You have visited this page
+                {{ num_visits }} time{{ num_visits|pluralize }}.
+            </p>
+        </div>
+    </div>
 {% endblock %}
+

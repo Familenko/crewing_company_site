@@ -2,41 +2,47 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  {% if vessel_type_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Vessels</th>
-        <th>Useful notes</th>
-        <th>Update</th>
-      </tr>
-
-      {% for vessel_type in vessel_type_list %}
-        <tr>
-          <td>
-              {{ vessel_type.id }}
-          </td>
-          <td>
-              {{ vessel_type.name }}
-          </td>
-          <td>
-            {% for vessel in vessel_type.vessels.all %}
-              <a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a>{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-          </td>
-          <td>
-              {{ vessel_type.description }}
-          <td>
-              <a href="{% url 'crewing:vessel-type-update' pk=vessel_type.id %}">
-                ✍️
-              </a>
-            </td>
-        </tr>
-      {% endfor %}
-    </table>
-
-  {% else %}
-      <p>There are no vessels type in the service.</p>
-  {% endif %}
+  <div class="container mt-5">
+  <h1 class="display-4 mb-4">
+    DEPARTMENTS
+  </h1>
+    <div class="container mt-5">
+      {% if vessel_type_list %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Vessels</th>
+                <th>Useful Notes</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for vessel_type in vessel_type_list %}
+                <tr>
+                  <td>{{ vessel_type.id }}</td>
+                  <td>{{ vessel_type.name }}</td>
+                  <td>
+                    {% for vessel in vessel_type.vessels.all %}
+                      <a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  </td>
+                  <td>{{ vessel_type.description }}</td>
+                  <td>
+                    <a href="{% url 'crewing:vessel-type-update' pk=vessel_type.id %}" class="btn btn-warning">
+                      ✍️ Update
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="lead">There are no vessel types in the service.</p>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

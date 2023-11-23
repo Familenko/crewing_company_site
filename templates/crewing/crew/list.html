@@ -2,51 +2,62 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-    <h1>
-      Crew List
-      <a href="{% url 'crewing:crew-create' %}" class="btn btn-secondary link-to-page">
-        Create
-      </a>
-    </h1>
-
-    <form action="" method="get" class="form-inline">
-      {{ search_form|crispy }}
-      <input class="btn btn-secondary"   type="submit" value="🔎👨👩">
-    </form>
-
-    {% if crew_list %}
-      <table class="table">
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Position</th>
-          <th>Date of join</th>
-          <th>Date of leaving</th>
-          <th>Vessel</th>
-          <th>Update</th>
-        </tr>
-      {% for sailor in crew_list %}
-        <tr>
-          <td>{{ sailor.id }}</td>
-          <td><a href="{{ sailor.get_absolute_url }}">{{ sailor.username }} {% if user == sailor %} (Me){% endif %}</a></td>
-          <td>{{ sailor.first_name }}</td>
-          <td>{{ sailor.last_name }}</td>
-          <td>{{ sailor.position }}</td>
-          <td>{{ sailor.date_of_join }}</td>
-          <td>{{ sailor.date_of_leaving }}</td>
-          <td><a href="{{ sailor.vessel.get_absolute_url }}">{{ sailor.vessel }}</td>
-          <td>
-            <a href="{% url "crewing:crew-update" pk=sailor.id %}">
-              Update
+    <div class="container mt-5">
+        <h1 class="display-4 mb-4">
+            CREW
+            <a href="{% url 'crewing:crew-create' %}" class="btn btn-secondary link-to-page">
+                Create
             </a>
-          </td>
-        </tr>
-      {% endfor %}
+        </h1>
 
-    </table>
-    {% else %}
-      <p>There are no drivers in the service.</p>
-    {% endif %}
+        <form action="" method="get" class="form-inline mb-4">
+            {{ search_form|crispy }}
+            <button class="btn btn-secondary" type="submit">🔎👨👩</button>
+        </form>
+
+        {% if crew_list %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Position</th>
+                            <th>Date of Joining</th>
+                            <th>Date of Leaving</th>
+                            <th>Vessel</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sailor in crew_list %}
+                            <tr>
+                                <td>{{ sailor.id }}</td>
+                                <td>
+                                    <a href="{{ sailor.get_absolute_url }}">{{ sailor.username }}
+                                        {% if user == sailor %} (Me){% endif %}
+                                    </a>
+                                </td>
+                                <td>{{ sailor.first_name }}</td>
+                                <td>{{ sailor.last_name }}</td>
+                                <td>{{ sailor.position }}</td>
+                                <td>{{ sailor.date_of_join }}</td>
+                                <td>{{ sailor.date_of_leaving }}</td>
+                                <td><a href="{{ sailor.vessel.get_absolute_url }}">{{ sailor.vessel }}</a></td>
+                                <td>
+                                    <a href="{% url "crewing:crew-update" pk=sailor.id %}" class="btn btn-warning">
+                                        Update
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="lead">There are no sailors in the service.</p>
+        {% endif %}
+    </div>
 {% endblock %}

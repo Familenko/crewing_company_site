@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <div class="container mt-5">
+    <h1 class="display-4">{{ company.name }}</h1>
+    <p class="lead"><strong>Country:</strong> {{ company.country }}</p>
 
-  <p><strong>First name:</strong> {{ company.name }}</p>
-  <p><strong>Last name:</strong> {{ company.country }}</p>
+    <div class="ml-3">
+      <h4 class="mt-4">Vessels</h4>
 
-  <div class="ml-3">
-    <h4>Vessels</h4>
-
-    {% for vessel in company.vessels.all %}
-        <hr>
-        <p><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></p>
-
-    {% empty %}
-      <p>No vessels!</p>
-    {% endfor %}
+      {% for vessel in company.vessels.all %}
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title"><a href="{{ vessel.get_absolute_url }}">{{ vessel.name }}</a></h5>
+          </div>
+        </div>
+      {% empty %}
+        <p class="mt-3">No vessels!</p>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

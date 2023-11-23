@@ -51,7 +51,7 @@ class CrewListView(LoginRequiredMixin, generic.ListView):
     model = Crew
     context_object_name = "crew_list"
     template_name = "crewing/crew/list.html"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(CrewListView, self).get_context_data(**kwargs)
@@ -82,7 +82,7 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
     model = Vessel
     context_object_name = "vessel_list"
     template_name = "crewing/vessel/list.html"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,7 +114,7 @@ class CompanyListView(LoginRequiredMixin, generic.ListView):
     model = Company
     context_object_name = "company_list"
     template_name = "crewing/company/list.html"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -142,7 +142,7 @@ class VesselTypeListView(LoginRequiredMixin, generic.ListView):
     model = VesselType
     context_object_name = "vessel_type_list"
     template_name = "crewing/vessel_type/list.html"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -157,7 +157,7 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     context_object_name = "position_list"
     template_name = "crewing/position/list.html"
-    paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
