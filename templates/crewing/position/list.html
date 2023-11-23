@@ -20,7 +20,7 @@
                 <a href="{{ position.get_absolute_url }}">{{ position.name }}</a>
             </td>
             <td>
-              {{ position.responsibility }}
+              {{ position.responsibility|truncatewords:25 }}
             </td>
             <td style="width: 150px; text-align: center;">
               {{ workers_count|default:"N/A"|get_item:position.id }}

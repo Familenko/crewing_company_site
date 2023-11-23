@@ -1,4 +1,3 @@
-import random
 from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required
@@ -9,23 +8,20 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 
 from crewing.models import Crew, Vessel, Company, VesselType, Position
-from crewing.forms import VesselForm, CompanyForm, VesselTypeForm, PositionForm, CrewCreationForm, CrewSearchForm, \
-    CrewUpdateForm, VesselSearchForm
+from crewing.forms import (
+    VesselForm,
+    CompanyForm,
+    VesselTypeForm,
+    PositionForm,
+    CrewCreationForm,
+    CrewSearchForm,
+    CrewUpdateForm,
+    VesselSearchForm
+)
 
 
 @login_required
 def index(request):
-
-    # history_data = [
-    #     "Did you know that Odessa, a bustling port city on the Black Sea in Ukraine, is home to the famous Potemkin Steps? These grand stairs, consisting of 192 steps, were immortalized in the iconic 1925 silent film 'Battleship Potemkin.' The staircase provides a stunning panoramic view of the city and the sea, making it a must-visit landmark for both locals and tourists alike.",
-    #     "Another interesting fact about Odessa is that it's often referred to as the 'Pearl of the Black Sea.' This nickname reflects the city's captivating beauty, rich cultural heritage, and vibrant atmosphere. Odessa is known for its historic architecture, diverse cuisine, and lively arts scene, making it a unique and charming destination for visitors from around the world.",
-    #     "Odessa is home to the world's longest continuous urban catacomb network. The Odessa Catacombs, originally limestone mines, have a total estimated length of around 2,500 kilometers (about 1,553 miles). These catacombs served various purposes throughout history, including as hiding places for partisans during World War II. Today, they remain a mysterious and intriguing underground labyrinth, drawing adventurous explorers and historians to uncover their secrets.",
-    #     "Odessa is also known for its vibrant nightlife scene, with numerous bars, clubs, and restaurants lining the city's streets. The city's nightlife is especially popular among tourists, who flock to Odessa's beaches and clubs during the summer months. In fact, Odessa is often referred to as the 'Las Vegas of the Black Sea' due to its lively nightlife and entertainment options.",
-    #     "Odessa is home to the world's largest underground shopping mall. The Odessa Catacombs, originally limestone mines, have a total estimated length of around 2,500 kilometers (about 1,553 miles). These catacombs served various purposes throughout history, including as hiding places for partisans during World War II. Today, they remain a mysterious and intriguing underground labyrinth, drawing adventurous explorers and historians to uncover their secrets.",
-    #     "Odessa is known for its unique and humorous monument to a fictional character. In the city center, you can find a statue of a literary figure named 'Duke de Richelieu.' What makes it interesting is that this character never actually existed in real life. The Duke was created by a French novelist, and the monument was erected to honor the city's founder, Armand-Emmanuel du Plessis, Duc de Richelieu, the French military and political figure. It adds a touch of whimsy to the city's cultural landscape."
-    # ]
-    #
-    # history = random.choice(history_data)
 
     num_sailors = Crew.objects.count()
     num_vessels = Vessel.objects.count()
@@ -39,7 +35,6 @@ def index(request):
         "num_vessels": num_vessels,
         "num_companies": num_companies,
         "num_visits": num_visits + 1,
-        # "history": history,
     }
 
     return render(request, "crewing/index.html", context=context)
@@ -100,7 +95,7 @@ class VesselListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
 
         one_month_ago = datetime.now() - timedelta(days=30)
-        sailors_leaving_soon = Crew.objects.filter(date_of_leaving__gte=one_month_ago)
+        sailors_leaving_soon = Crew.objects.filter(date_of_leaving__lte=one_month_ago)
 
         context["sailors_leaving_soon"] = sailors_leaving_soon
 

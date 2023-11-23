@@ -25,12 +25,13 @@ from .views import (
     PositionCreateView,
     PositionUpdateView,
     PositionDeleteView,
+    PositionDetailView,
 
     CompanyDetailView,
     CompanyListView,
     CompanyCreateView,
     CompanyUpdateView,
-    CompanyDeleteView, PositionDetailView,
+    CompanyDeleteView,
 )
 
 urlpatterns = [

@@ -3,7 +3,6 @@ import random
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ValidationError
 
 from crewing.models import VesselType, Vessel, Company, Position
 from crewing.validators import validate_IMO_number, validate_name, validate_date_of_joining

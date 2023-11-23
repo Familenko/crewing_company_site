@@ -16,6 +16,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Country</th>
+                <th>Description</th>
                 <th>Amount of Vessels</th>
                 <th>Amount of Workers</th>
               </tr>
@@ -26,9 +27,11 @@
                   <td>{{ company.id }}</td>
                   <td><a href="{{ company.get_absolute_url }}">{{ company.name }}</a></td>
                   <td>{{ company.country }}</td>
-                  <td>{{ vessels_count|default:"N/A"|get_item:company.id }}</td>
-                  <td>{{ workers_count|default:"N/A"|get_item:company.id }}</td>
+                  <td style="width: 400px; text-align: center;">{{ company.description|truncatewords:20 }}</td>
+                  <td style = "width: 200px; text-align: center;">{{ vessels_count|default:"N/A"|get_item:company.id }}</td>
+                  <td style = "width: 200px; text-align: center;">{{ workers_count|default:"N/A"|get_item:company.id }}</td>
                 </tr>
+
               {% endfor %}
             </tbody>
           </table>
