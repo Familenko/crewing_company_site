@@ -12,21 +12,21 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-mxfam@dl6itr9iauq$m(9$430!se$^(c92ud6+99h^*h)*qc!9"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default="django-insecure-mxfam@dl6itr9iauq$m(9$430!se$^(c92ud6+99h^*h)*qc!9")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Application definition
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -96,6 +97,10 @@ DATABASES = {
     }
 }
 
+db_from_end = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_end)
+
+# DATABASE_URL = "postgres://hsylqltw:qsm9HwUbwuK3MMJ295R45wQ-uq-ivy6x@cornelius.db.elephantsql.com/hsylqltw"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -133,6 +138,12 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATIC_ROOT = "staticfiles/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -147,3 +158,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+LOGIN_REDIRECT_URL = "/"
