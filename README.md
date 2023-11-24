@@ -29,7 +29,7 @@ manage sailors and their contracts.
 
 - After loading data from fixture you can use following superuser (or create another one by yourself):
   - Login: `lesha`
-  - Password: `lesha`
+  - Password: `Gugaga9898`
 
 # Site description
 
