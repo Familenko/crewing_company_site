@@ -5,6 +5,9 @@ This is a site for a crewing company.
 It allows you to store information about ships, crew members, their contracts, 
 manage sailors and their contracts.
 
+## Link to the site
+https://creqing-company-site.onrender.com/
+
 ## Installation
 
 ### Set up the environment
