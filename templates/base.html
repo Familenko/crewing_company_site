@@ -13,6 +13,15 @@
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        body {
+            background-image: url('{% static "img/background.jpg" %}');
+            /* Replace "images/background.jpg" with the actual path to your background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
