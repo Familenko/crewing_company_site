@@ -8,6 +8,9 @@ manage sailors and their contracts.
 ## Link to the site
 https://creqing-company-site.onrender.com/
 
+  - Login: `lesha`
+  - Password: `Gugaga9898`
+
 ## Installation
 
 ### Set up the environment
